@@ -658,5 +658,5 @@ func (suite *CompileStructuresTestSuite) TestMorpheStructureToGoStruct_Structure
 	innerType, ok := refType.ValueType.(godef.GoTypeStruct)
 	suite.True(ok, "LineItem value type should be GoTypeStruct")
 	suite.Equal(innerType.Name, "InvoiceLineItem")
-	suite.Equal(innerType.PackagePath, structuresConfig.Package.Path)
+	suite.Equal(innerType.PackagePath, "")
 }

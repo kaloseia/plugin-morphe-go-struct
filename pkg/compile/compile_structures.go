@@ -93,6 +93,10 @@ func getDirectGoFieldsForMorpheStructure(enumPackage godef.Package, structurePac
 
 		goEnumField := getEnumFieldAsStructFieldType(enumPackage, allEnums, fieldName, string(fieldDef.Type), fieldCasing)
 		if goEnumField.Name != "" && goEnumField.Type != nil {
+			if hasAttribute(fieldDef.Attributes, "optional") {
+				goEnumField.Type = godef.GoTypePointer{ValueType: goEnumField.Type}
+				goEnumField.Tags = buildFieldTags(fieldName, fieldDef.Attributes, fieldCasing)
+			}
 			allFields = append(allFields, goEnumField)
 			continue
 		}
@@ -101,8 +105,7 @@ func getDirectGoFieldsForMorpheStructure(enumPackage godef.Package, structurePac
 		if allStructures != nil {
 			if _, ok := allStructures[string(fieldDef.Type)]; ok {
 				structRefType := godef.GoType(godef.GoTypeStruct{
-					PackagePath: structurePackage.Path,
-					Name:        string(fieldDef.Type),
+					Name: string(fieldDef.Type),
 				})
 				if hasAttribute(fieldDef.Attributes, "optional") {
 					structRefType = godef.GoTypePointer{ValueType: structRefType}
