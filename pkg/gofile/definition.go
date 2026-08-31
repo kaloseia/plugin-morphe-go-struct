@@ -17,7 +17,7 @@ func WriteGoDefinitionFile(dirPath string, definitionName string, goFileContents
 	definitionFileName := strcase.ToSnakeCaseLower(definitionName)
 	definitionFilePath := filepath.Join(dirPath, definitionFileName+".go")
 	if _, readErr := os.ReadDir(dirPath); readErr != nil && os.IsNotExist(readErr) {
-		mkDirErr := os.MkdirAll(dirPath, 0644)
+		mkDirErr := os.MkdirAll(dirPath, 0755)
 		if mkDirErr != nil {
 			return nil, mkDirErr
 		}
